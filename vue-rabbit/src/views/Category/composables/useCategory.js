@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
 
+//一般都是用useXXXX
 export function useCategory() {
   const categoryData = ref({});
   const route = useRoute();

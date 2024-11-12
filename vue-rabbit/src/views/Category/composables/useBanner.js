@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import { getBannerAPI } from "@/apis/home";
 
+//一般都是用useXXXX
 export function useBanner() {
   const bannerList = ref([]);
   const getBanner = async () => {
