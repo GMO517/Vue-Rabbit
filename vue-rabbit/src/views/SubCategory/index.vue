@@ -35,6 +35,25 @@ const tabChange = () => {
   getGoodsList();
 };
 
+// 加載更多
+const disabled = ref(false);
+const load = async () => {
+  console.log("加載更多參數了");
+  //獲取下一頁的資料
+  reqData.value.page++;
+  const res = await getSubCategoryAPI(reqData.value);
+
+  //使用展開運算子拼接數組
+  //等同於C# List.AddRange()
+  goodsList.value = [...goodsList.value, ...res.result.items];
+
+  //加載完畢 停止監聽
+  if (res.result.items.length === 0) {
+    console.log("資料加載完畢 停止");
+    disabled.value = true;
+  }
+};
+
 onMounted(() => {
   getCategoryData();
   getGoodsList();
@@ -63,7 +82,11 @@ onMounted(() => {
         <el-tab-pane label="最高人氣" name="orderNum"></el-tab-pane>
         <el-tab-pane label="評論最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div
+        class="body"
+        v-infinite-scroll="load"
+        :infinite-scroll-disabled="disabled"
+      >
         <!-- 商品列表 -->
         <GoodsItem v-for="goods in goodsList" :goods="goods" :key="goods.id" />
       </div>
