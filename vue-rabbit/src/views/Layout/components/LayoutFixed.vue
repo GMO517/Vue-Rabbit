@@ -1,7 +1,12 @@
 <script setup>
-//使用vueUse函數庫抓取window y滾動距離
 import { useScroll } from "@vueuse/core";
+import { useCategoryStore } from "@/stores/category";
+
+//使用vueUse函數庫抓取window y滾動距離
 const { y } = useScroll(window);
+
+//使用pinia中的資料
+const categoryStore = useCategoryStore();
 </script>
 
 <template>
@@ -14,32 +19,12 @@ const { y } = useScroll(window);
         <li class="home">
           <RouterLink to="/">首頁</RouterLink>
         </li>
-        <li>
-          <RouterLink to="/">居家</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">美食</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">服飾</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">母嬰</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">個護</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">嚴選</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">數碼</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">運動</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">雜項</RouterLink>
+        <li
+          class="home"
+          v-for="item in categoryStore.categoryList"
+          :key="item.id"
+        >
+          <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
 
