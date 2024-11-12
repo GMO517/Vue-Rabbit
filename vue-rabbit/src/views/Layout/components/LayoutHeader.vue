@@ -1,13 +1,14 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getCategoryAPI } from "@/apis/layout";
+import { convertToTC, convertObjectToTC } from "@/utils/convertText";
 
 const categoryList = ref([]);
 
 const getCategory = async () => {
   const res = await getCategoryAPI();
-  // console.log(res);
-  categoryList.value = res.result;
+  // categoryList.value = res.result;
+  categoryList.value = convertObjectToTC(res.result);
 };
 onMounted(() => {
   getCategory();

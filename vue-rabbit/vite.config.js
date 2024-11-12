@@ -8,6 +8,8 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
+import commonjs from "@rollup/plugin-commonjs";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -22,6 +24,7 @@ export default defineConfig({
         ElementPlusResolver({ importStyle: "sass" }),
       ],
     }),
+    commonjs(),
   ],
   resolve: {
     // 实际的路径转换  @  -> src
