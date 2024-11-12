@@ -14,7 +14,7 @@ export const lazyLoadingPlugin = {
 
         //isIntersecting:bool 會回傳是否在視口裡面
         const { stop } = useIntersectionObserver(el, ([{ isIntersecting }]) => {
-          console.log(isIntersecting);
+          // console.log(isIntersecting);
           if (isIntersecting) {
             //進入視口才去給url 才加載
             el.src = binding.value;
