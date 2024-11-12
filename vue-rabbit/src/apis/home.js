@@ -7,3 +7,14 @@ export function getBannerAPI() {
     url: "/home/banner",
   });
 }
+
+/**
+ * @description: 獲取新鮮好物
+ * @param {*}
+ * @return {*}
+ */
+export const findNewAPI = () => {
+  return httpInstance({
+    url: "/home/new",
+  });
+};
