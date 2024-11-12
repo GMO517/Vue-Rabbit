@@ -18,6 +18,10 @@ onMounted(() => categoryStore.getCategory());
     <LayoutFixed />
     <LayoutNav />
     <LayoutHeader />
+    <!-- 添加key 破壞路由緩存造成組件覆用的問題 -->
+    <!-- 強制銷毀重建 -->
+    <!-- 但過於粗暴 請求會跑好幾次 先棄用 -->
+    <!-- <RouterView :key="$route.fullPath" /> -->
     <RouterView />
     <LayoutFooter />
   </div>
