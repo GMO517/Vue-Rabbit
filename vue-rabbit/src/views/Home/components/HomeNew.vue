@@ -2,12 +2,13 @@
 import HomePanel from "./HomePanel.vue";
 import { findNewAPI } from "@/apis/home";
 import { ref, onMounted } from "vue";
+import { convertObjectToTC } from "@/utils/convertText";
 
 //獲取數據
 const newList = ref([]);
 const getNewList = async () => {
   const res = await findNewAPI();
-  newList.value = res.result;
+  newList.value = convertObjectToTC(res.result);
 };
 onMounted(() => {
   getNewList();
