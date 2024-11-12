@@ -34,6 +34,12 @@ const router = createRouter({
       component: Login,
     },
   ],
+
+  //路由行為訂製
+  //會在切換路由時 將滾動狀態還原 回到網頁最上方
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;
