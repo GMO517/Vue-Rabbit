@@ -14,7 +14,6 @@ onMounted(() => categoryStore.getCategory());
 
 <template>
   <div>
-    首頁
     <!-- 二級路由出口 -->
     <LayoutFixed />
     <LayoutNav />
