@@ -29,3 +29,14 @@ export const getHotAPI = () => {
     url: "home/hot",
   });
 };
+
+/**
+ * @description: 獲取所有商品資料
+ * @param {*}
+ * @return {*}
+ */
+export const getGoodsAPI = () => {
+  return httpInstance({
+    url: "/home/goods",
+  });
+};
