@@ -15,9 +15,30 @@ import "@/styles/common.scss";
 //   console.log(res);
 // });
 
+import { useIntersectionObserver } from "@vueuse/core";
+
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
 
 app.mount("#app");
+
+//定義全局指令
+
+app.directive("img-lazy", {
+  mounted(el, binding) {
+    //el = element 指定綁定的對象 img
+    //binding = binding.value =後面綁定的值
+    // console.log(el, binding.value);
+
+    //isIntersecting:bool 會回傳是否在視口裡面
+    useIntersectionObserver(el, ([{ isIntersecting }]) => {
+      // console.log(isIntersecting);
+      if (isIntersecting) {
+        //進入視口才去給url 才加載
+        el.src = binding.value;
+      }
+    });
+  },
+});
