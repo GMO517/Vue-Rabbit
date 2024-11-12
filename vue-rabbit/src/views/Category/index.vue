@@ -1,51 +1,14 @@
 <script setup>
-import { getCategoryAPI } from "@/apis/category";
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { getBannerAPI } from "@/apis/home";
-import { convertObjectToTC } from "@/utils/convertText";
 import GoodsItem from "../Home/components/GoodsItem.vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import { useCategory } from "./composables/useCategory";
 
-const categoryData = ref({});
-const route = useRoute();
-const getCategory = async (id = route.params.id) => {
-  const res = await getCategoryAPI(id);
-  categoryData.value = convertObjectToTC(res.result);
-  // console.log(categoryData.value);
-};
+import { useBanner } from "./composables/useBanner";
 
-onMounted(() => {
-  getCategory();
-});
-
-// 目標:路由參數變化的時候 可以把分類API重新發送請求
-onBeforeRouteUpdate((to) => {
-  // console.log("路由變化");
-  getCategory(to.params.id);
-});
-
-//也可以用watch監聽路由變化去更新資料
-// watch(
-//   () => route.params.id,
-//   (newId) => {
-//     getCategory(newId);
-//   }
-// );
+//獲取category
+const { categoryData } = useCategory();
 
 //獲取banner
-const bannerList = ref([]);
-const getBanner = async () => {
-  const res = await getBannerAPI({
-    distributionSite: "2",
-  });
-  // console.log(res);
-  bannerList.value = res.result;
-};
-
-onMounted(() => {
-  getBanner();
-});
+const { bannerList } = useBanner();
 </script>
 
 <template>
