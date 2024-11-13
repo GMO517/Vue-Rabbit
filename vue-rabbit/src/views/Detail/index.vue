@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import { getDetail } from "@/apis/detail";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
-
+import DetailHot from "./components/DetailHot.vue";
 const goods = ref({});
 const route = useRoute();
 
@@ -142,7 +142,12 @@ onMounted(() => getGoods());
             </div>
 
             <!-- 24 熱榜 + 專題推薦 -->
-            <div class="goods-aside"></div>
+            <div class="goods-aside">
+              <!-- 24小時 -->
+              <DetailHot />
+              <!-- 本週 -->
+              <DetailHot />
+            </div>
           </div>
         </div>
       </div>
