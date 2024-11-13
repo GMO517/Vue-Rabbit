@@ -4,6 +4,7 @@ import { getDetail } from "@/apis/detail";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
 import DetailHot from "./components/DetailHot.vue";
+import ImageView from "@/components/imageView/index.vue";
 const goods = ref({});
 const route = useRoute();
 
@@ -54,6 +55,7 @@ onMounted(() => getGoods());
           <div class="goods-info">
             <div class="media">
               <!-- 圖片預覽區 -->
+              <ImageView />
             </div>
             <!-- 統計數量 -->
             <ul class="goods-sales">
