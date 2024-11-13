@@ -45,7 +45,7 @@ onMounted(() => getGoods());
             {{ goods.categories[0].name }}
           </el-breadcrumb-item>
 
-          <el-breadcrumb-item>抓絨保暖，毛毛蟲子兒童運動鞋</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -55,7 +55,7 @@ onMounted(() => getGoods());
           <div class="goods-info">
             <div class="media">
               <!-- 圖片預覽區 -->
-              <ImageView />
+              <ImageView :image-list="goods.mainPictures" />
             </div>
             <!-- 統計數量 -->
             <ul class="goods-sales">
