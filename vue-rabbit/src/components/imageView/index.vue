@@ -26,33 +26,32 @@ const { elementX, elementY, isOutside } = useMouseInElement(target);
 const left = ref(0);
 const top = ref(0);
 watch([elementX, elementY], () => {
-  console.log("xy變化");
   // 有效範圍內控制滑塊距離
   // 橫向
-  if (elementX.value > 100 && elementX.value < 300) {
-    left.value = elementX.value - 100;
-  }
+  effectiveRangeCal(elementX, left);
 
   // 縱向
-  if (elementY.value > 100 && elementY.value < 300) {
-    top.value = elementY.value - 100;
-  }
+  effectiveRangeCal(elementY, top);
 
   // 處理邊界
-  if (elementX.value > 300) {
-    left.value = 200;
-  }
-  if (elementX.value < 100) {
-    left.value = 0;
-  }
-
-  if (elementY.value > 300) {
-    top.value = 200;
-  }
-  if (elementY.value < 100) {
-    top.value = 0;
-  }
+  limitRange(elementX, left);
+  limitRange(elementY, top);
 });
+
+const effectiveRangeCal = (element, obj) => {
+  if (element.value > 100 && element.value < 300) {
+    obj.value = element.value - 100;
+  }
+};
+
+const limitRange = (element, obj) => {
+  if (element.value > 300) {
+    obj.value = 200;
+  }
+  if (element.value < 100) {
+    obj.value = 0;
+  }
+};
 </script>
 
 <template>
