@@ -25,18 +25,9 @@ const { elementX, elementY, isOutside } = useMouseInElement(target);
 // 監聽elementX/Y變化, 一旦變化 重新設置left/top
 const left = ref(0);
 const top = ref(0);
-watch([elementX, elementY], () => {
-  // 有效範圍內控制滑塊距離
-  // 橫向
-  effectiveRangeCal(elementX, left);
 
-  // 縱向
-  effectiveRangeCal(elementY, top);
-
-  // 處理邊界
-  limitRange(elementX, left);
-  limitRange(elementY, top);
-});
+const positionX = ref(0);
+const positionY = ref(0);
 
 const effectiveRangeCal = (element, obj) => {
   if (element.value > 100 && element.value < 300) {
@@ -52,6 +43,24 @@ const limitRange = (element, obj) => {
     obj.value = 0;
   }
 };
+
+watch([elementX, elementY], () => {
+  // 有效範圍內控制滑塊距離
+  if (isOutside.value) return;
+  // 橫向
+  effectiveRangeCal(elementX, left);
+
+  // 縱向
+  effectiveRangeCal(elementY, top);
+
+  // 處理邊界
+  limitRange(elementX, left);
+  limitRange(elementY, top);
+
+  // 控制大圖的顯示
+  positionX.value = -left.value * 2;
+  positionY.value = -top.value * 2;
+});
 </script>
 
 <template>
@@ -61,7 +70,11 @@ const limitRange = (element, obj) => {
     <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt="" />
       <!-- 蒙層小滑塊 -->
-      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+      <div
+        class="layer"
+        v-show="!isOutside"
+        :style="{ left: `${left}px`, top: `${top}px` }"
+      ></div>
     </div>
     <!-- 小圖列表 -->
     <ul class="small">
@@ -79,12 +92,12 @@ const limitRange = (element, obj) => {
       class="large"
       :style="[
         {
-          backgroundImage: `url(${imageList[0]})`,
-          backgroundPositionX: `0px`,
-          backgroundPositionY: `0px`,
+          backgroundImage: `url(${imageList[activeIndex]})`,
+          backgroundPositionX: `${positionX}px`,
+          backgroundPositionY: `${positionY}px`,
         },
       ]"
-      v-show="false"
+      v-show="!isOutside"
     ></div>
   </div>
 </template>
