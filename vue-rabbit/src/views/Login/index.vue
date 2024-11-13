@@ -5,6 +5,7 @@ import { ref } from "vue";
 const form = ref({
   account: "",
   password: "",
+  agree: true,
 });
 
 // 2.規則對象
@@ -31,6 +32,20 @@ const rules = {
       max: 14,
       message: "密碼長度在6到14個字",
       trigger: "blur",
+    },
+  ],
+  agree: [
+    {
+      validator: (rule, value, callback) => {
+        console.log(value);
+        // 自訂驗證邏輯
+        // 勾選=通過, 不勾選=不通過
+        if (value) {
+          callback();
+        } else {
+          callback(new Error("請勾選使用者條款"));
+        }
+      },
     },
   ],
 };
@@ -71,8 +86,8 @@ const rules = {
               <el-form-item prop="password" label="密碼">
                 <el-input v-model="form.password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large">
+              <el-form-item prop="agree" label-width="22px">
+                <el-checkbox size="large" v-model="form.agree">
                   我已同意隱私條款和服務條款
                 </el-checkbox>
               </el-form-item>
