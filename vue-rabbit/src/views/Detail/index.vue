@@ -6,18 +6,21 @@ import { convertObjectToTC } from "@/utils/convertText";
 
 const goods = ref({});
 const route = useRoute();
+
 const getGoods = async () => {
   const res = await getDetail(route.params.id);
+  // console.log(res);
   goods.value = convertObjectToTC(res.result);
 };
+
 onMounted(() => getGoods());
 </script>
 
 <template>
   <div class="xtx-goods-page">
     <div class="container">
+      <!-- 在渲染之前檢查 goods.details 是否存在 -->
       <div class="container" v-if="goods.details">
-        <!-- <div class="bread-container"> -->
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
           <!-- 錯誤原因 goods一開始{}是空對象 
@@ -26,18 +29,25 @@ onMounted(() => getGoods());
            1.可選鏈 ?. => goods.categories?.[0].name
            2.v-if手動控制 只有有資料時才渲染
            -->
+          <!-- 檢查 categories 是否有效 -->
           <el-breadcrumb-item
+            v-if="goods.categories?.[1]"
             :to="{ path: `/category/${goods.categories[1].id}` }"
           >
             {{ goods.categories[1].name }}
           </el-breadcrumb-item>
+
           <el-breadcrumb-item
+            v-if="goods.categories?.[0]"
             :to="{ path: `/category/sub/${goods.categories[0].id}` }"
-            >{{ goods.categories[0].name }}</el-breadcrumb-item
           >
+            {{ goods.categories[0].name }}
+          </el-breadcrumb-item>
+
           <el-breadcrumb-item>抓絨保暖，毛毛蟲子兒童運動鞋</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+
       <!-- 商品信息 -->
       <div class="info-container">
         <div>
@@ -64,13 +74,13 @@ onMounted(() => getGoods());
               </li>
               <li>
                 <p>品牌信息</p>
-                <!-- brand有可能是undefined 也是一樣解法 -->
+                <!-- brand有可能是undefined，使用可選鏈 -->
                 <p>{{ goods.brand?.name }}</p>
                 <p><i class="iconfont icon-dynamic-filling"></i>品牌主頁</p>
               </li>
             </ul>
+
             <div class="spec">
-              <!-- 商品訊息區 -->
               <p class="g-name">{{ goods.name }}</p>
               <p class="g-desc">{{ goods.desc }}</p>
               <p class="g-price">
@@ -100,16 +110,15 @@ onMounted(() => getGoods());
               </div>
             </div>
           </div>
+
           <div class="goods-footer">
             <div class="goods-article">
-              <!-- 商品詳情 -->
               <div class="goods-tabs">
                 <nav>
                   <a>商品詳情</a>
                 </nav>
                 <div class="goods-detail">
-                  <!-- 屬性 -->
-                  <ul class="attrs">
+                  <ul class="attrs" v-if="goods.details?.properties?.length">
                     <li
                       v-for="item in goods.details.properties"
                       :key="item.value"
@@ -118,16 +127,20 @@ onMounted(() => getGoods());
                       <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
+
                   <!-- 圖片 -->
-                  <img
-                    v-for="img in goods.details.pictures"
-                    :src="img"
-                    :key="img"
-                    alt=""
-                  />
+                  <div v-if="goods.details?.pictures?.length">
+                    <img
+                      v-for="img in goods.details.pictures"
+                      :src="img"
+                      :key="img"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+
             <!-- 24 熱榜 + 專題推薦 -->
             <div class="goods-aside"></div>
           </div>
