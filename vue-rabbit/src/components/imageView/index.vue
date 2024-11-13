@@ -22,7 +22,7 @@ const target = ref(null);
 const { elementX, elementY, isOutside } = useMouseInElement(target);
 
 // 3.控制滑塊跟隨滑鼠移動
-// 監聽elementX/Y變化, 一旦變化 重新設置left/top
+// 監聽elementX/Y變化, 一旦變化  重新設置left/top
 const left = ref(0);
 const top = ref(0);
 
