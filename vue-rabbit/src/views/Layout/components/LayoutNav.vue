@@ -4,7 +4,8 @@
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="true">
+        <!-- 多模板渲染 區分登入狀態跟非登入狀態 -->
+        <template v-if="false">
           <li>
             <a href="javascript:;">
               <i class="iconfont icon-user"></i>
@@ -26,7 +27,9 @@
           <li><a href="javascript:;">會員中心</a></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;">請先登錄</a></li>
+          <li>
+            <a href="javascript:;" @click="$router.push('/login')">請先登錄</a>
+          </li>
           <li><a href="javascript:;">幫助中心</a></li>
           <li><a href="javascript:;">關於我們</a></li>
         </template>
