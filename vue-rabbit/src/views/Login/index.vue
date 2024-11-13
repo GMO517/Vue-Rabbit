@@ -49,6 +49,20 @@ const rules = {
     },
   ],
 };
+
+// 3.獲取form實例做統一驗證
+const formRef = ref(null);//記得要去表單那邊綁定
+const doLogin = () => {
+  // 調用實例方法
+  formRef.value.validate((valid) => {
+    // valid = 所有表單都通過驗證 才為true
+    console.log(valid);
+    // 以valid作為判斷條件 通過才進到登入邏輯
+    if(valid){
+      
+    }
+  });
+};
 </script>
 
 <template>
@@ -74,6 +88,7 @@ const rules = {
         <div class="account-box">
           <div class="form">
             <el-form
+              ref="formRef"
               :model="form"
               :rules="rules"
               label-position="right"
@@ -91,7 +106,9 @@ const rules = {
                   我已同意隱私條款和服務條款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">點擊登入</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin"
+                >點擊登入</el-button
+              >
             </el-form>
           </div>
         </div>
