@@ -1,4 +1,40 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+// 表單驗證(帳號+密碼)
+// 1.準備表單對象
+const form = ref({
+  account: "",
+  password: "",
+});
+
+// 2.規則對象
+const rules = {
+  account: [
+    {
+      // required = 必填
+      // message = 提示信息
+      // trigger = 失去焦點時觸發
+      required: true,
+      message: "帳號不能為空",
+      trigger: "blur",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "密碼不能為空",
+      trigger: "blur",
+    },
+    {
+      //min = 最小長度, max = 最大長度
+      min: 6,
+      max: 14,
+      message: "密碼長度在6到14個字",
+      trigger: "blur",
+    },
+  ],
+};
+</script>
 
 <template>
   <div>
@@ -22,12 +58,18 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" status-icon>
-              <el-form-item label="帳戶">
-                <el-input />
+            <el-form
+              :model="form"
+              :rules="rules"
+              label-position="right"
+              label-width="60px"
+              status-icon
+            >
+              <el-form-item prop="account" label="帳戶">
+                <el-input v-model="form.account" />
               </el-form-item>
-              <el-form-item label="密碼">
-                <el-input type="password" />
+              <el-form-item prop="password" label="密碼">
+                <el-input v-model="form.password" />
               </el-form-item>
               <el-form-item label-width="22px">
                 <el-checkbox size="large">
