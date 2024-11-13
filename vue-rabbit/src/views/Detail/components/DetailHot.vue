@@ -1,8 +1,23 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { fetchHotGoodsAPI } from "@/apis/detail";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
+//設計props參數 用於適配不同title和資料
+
+const props = defineProps({
+  hotType: {
+    type: Number,
+  },
+});
+//適配title  1-24hr 2-week
+//這裡是枚舉寫法
+const TYPEMAP = {
+  1: "本日熱門",
+  2: "本週熱門",
+};
+
+const title = computed(() => TYPEMAP[props.hotType]);
 
 //以24小時熱門榜獲取資料
 const hotList = ref([]);
@@ -10,7 +25,7 @@ const route = useRoute();
 const getHotList = async () => {
   const res = await fetchHotGoodsAPI({
     id: route.params.id,
-    type: 1,
+    type: props.hotType,
   });
   hotList.value = convertObjectToTC(res.result);
 };
@@ -19,7 +34,7 @@ onMounted(() => getHotList());
 
 <template>
   <div class="goods-hot">
-    <h3>周日榜單</h3>
+    <h3>{{ title }}</h3>
     <!-- 商品區塊 -->
     <RouterLink
       to="/"
