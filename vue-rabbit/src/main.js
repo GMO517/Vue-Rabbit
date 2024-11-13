@@ -16,9 +16,12 @@ import "@/styles/common.scss";
 // });
 //引入懶加載指令插件
 import { lazyLoadingPlugin } from "@/directives";
+//引入全局組件
+import { componentPlugin } from "./components";
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
 app.use(lazyLoadingPlugin);
+app.use(componentPlugin);
 app.mount("#app");

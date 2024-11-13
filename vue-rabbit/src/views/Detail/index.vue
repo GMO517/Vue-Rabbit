@@ -4,7 +4,7 @@ import { getDetail } from "@/apis/detail";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
 import DetailHot from "./components/DetailHot.vue";
-import ImageView from "@/components/imageView/index.vue";
+
 const goods = ref({});
 const route = useRoute();
 
@@ -15,6 +15,10 @@ const getGoods = async () => {
 };
 
 onMounted(() => getGoods());
+//sku規格被操作時
+const skuChange = (sku) => {
+  console.log(sku);
+};
 </script>
 
 <template>
@@ -55,7 +59,7 @@ onMounted(() => getGoods());
           <div class="goods-info">
             <div class="media">
               <!-- 圖片預覽區 -->
-              <ImageView :image-list="goods.mainPictures" />
+              <XtxImageView :image-list="goods.mainPictures" />
             </div>
             <!-- 統計數量 -->
             <ul class="goods-sales">
@@ -105,6 +109,7 @@ onMounted(() => getGoods());
                 </dl>
               </div>
               <!-- SKU 組件 -->
+              <XtxSku :goods="goods" @change="skuChange" />
               <!-- 數據組件 -->
               <!-- 按鈕組件 -->
               <div>
