@@ -1,5 +1,9 @@
 <script setup>
 import { ref } from "vue";
+import { loginAPI } from "@/apis/user";
+import "element-plus/theme-chalk/el-message.css";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 // 表單驗證(帳號+密碼)
 // 1.準備表單對象
 const form = ref({
@@ -51,15 +55,22 @@ const rules = {
 };
 
 // 3.獲取form實例做統一驗證
-const formRef = ref(null);//記得要去表單那邊綁定
+const formRef = ref(null); //記得要去表單那邊綁定
+const router = useRouter();
 const doLogin = () => {
+  const { account, password } = form.value;
   // 調用實例方法
-  formRef.value.validate((valid) => {
+  formRef.value.validate(async (valid) => {
     // valid = 所有表單都通過驗證 才為true
     console.log(valid);
     // 以valid作為判斷條件 通過才進到登入邏輯
-    if(valid){
-      
+    if (valid) {
+      const res = await loginAPI({ account, password });
+      // console.log(res);
+      // 1.提示使用者
+      ElMessage({ type: "success", message: "登入成功" });
+      // 2.跳轉首頁
+      router.replace({ path: "/" });
     }
   });
 };
