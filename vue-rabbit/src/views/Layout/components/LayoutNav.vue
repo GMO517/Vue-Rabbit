@@ -1,15 +1,20 @@
-<script setup></script>
+<script setup>
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
+</script>
 
 <template>
   <nav class="app-topnav">
     <div class="container">
       <ul>
         <!-- 多模板渲染 區分登入狀態跟非登入狀態 -->
-        <template v-if="false">
+        <!-- 登入時顯示第一塊 非登入顯示第二塊 -->
+        <!-- 以是否有token為判斷依據 -->
+        <template v-if="userStore.userInfo.token">
           <li>
             <a href="javascript:;">
               <i class="iconfont icon-user"></i>
-              周杰倫
+              {{ userStore.userInfo.account }}
             </a>
           </li>
           <li>
