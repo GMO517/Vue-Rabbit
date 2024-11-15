@@ -16,6 +16,8 @@ const tabTypes = [
 
 // 訂單列表
 const orderList = ref([]);
+const totalPage = ref(0);
+
 const params = ref({
   orderState: 0,
   page: 1,
@@ -24,16 +26,25 @@ const params = ref({
 
 const getUserList = async () => {
   const res = await getUserOrder(params.value);
-  orderList.value = convertObjectToTC(res.result);
+  orderList.value = convertObjectToTC(res.result.items);
+  totalPage.value = res.result.counts;
 };
 
 onMounted(() => {
   getUserList();
 });
 
+// tab切換
 const tabChange = (type) => {
   params.value.orderState = type;
   // 再次抓資料
+  getUserList();
+};
+
+// 頁數切換
+const pageChange = (page) => {
+  // console.log(page);
+  params.value.page = page;
   getUserList();
 };
 </script>
@@ -79,7 +90,7 @@ const tabChange = (type) => {
                         <span>{{ item.attrsText }}</span>
                       </p>
                     </div>
-                    <div class="price">¥{{ item.realPay?.toFixed(2) }}</div>
+                    <div class="price">${{ Math.round(item.realPay) }}</div>
                     <div class="count">x{{ item.quantity }}</div>
                   </li>
                 </ul>
@@ -97,8 +108,8 @@ const tabChange = (type) => {
                 </p>
               </div>
               <div class="column amount">
-                <p class="red">¥{{ order.payMoney?.toFixed(2) }}</p>
-                <p>（含運費：¥{{ order.postFee?.toFixed(2) }}）</p>
+                <p class="red">${{ Math.round(order.payMoney) }}</p>
+                <p>（含運費：${{ Math.round(order.postFee) }}）</p>
                 <p>線上支付</p>
               </div>
               <div class="column action">
@@ -131,7 +142,13 @@ const tabChange = (type) => {
           </div>
           <!-- 分頁 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination
+              :total="totalPage"
+              :page-size="params.pageSize"
+              @current-change="pageChange"
+              background
+              layout="prev, pager, next"
+            />
           </div>
         </div>
       </div>
