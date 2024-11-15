@@ -43,6 +43,14 @@ export const useCartStore = defineStore(
       // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
     };
 
+    // 單選功能
+    const singleCheck = (skuId, selected) => {
+      // 通過skuId找到要修改的那一項
+      // 然後把他的selected修改為傳過來的selected
+      const item = cartList.value.find((item) => item.skuId === skuId);
+      item.selected = selected;
+    };
+
     // 計算商品總和
     // 1.總數 所有項的count之和
     // reduce((累加器,當前項) => 累加器 + 當前項.count, 起始值 = 0)
@@ -64,6 +72,7 @@ export const useCartStore = defineStore(
       removeCart,
       allItemCount,
       allPriceCount,
+      singleCheck,
     };
   },
   {
