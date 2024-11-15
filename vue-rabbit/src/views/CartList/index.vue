@@ -102,10 +102,15 @@ const allCheck = (selected) => {
         <div class="batch">
           共 {{ cartStore.allItemCount }} 件商品，已選擇
           {{ cartStore.selectedCount }} 件，商品合計：
-          <span class="red">&dollar; {{cartStore.selectedPriceCount}} </span>
+          <span class="red">&dollar; {{ cartStore.selectedPriceCount }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary">下單結算</el-button>
+          <el-button
+            size="large"
+            type="primary"
+            @click="$router.push('/checkout')"
+            >點我結帳</el-button
+          >
         </div>
       </div>
     </div>
