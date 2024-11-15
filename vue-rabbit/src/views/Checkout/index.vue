@@ -1,8 +1,10 @@
 <script setup>
-import { getCheckoutInfoAPI } from "@/apis/checkout";
+import { getCheckoutInfoAPI, createOrderAPI } from "@/apis/checkout";
 import { onMounted, ref } from "vue";
 import { convertObjectToTC } from "@/utils/convertText";
-
+import { useRouter } from "vue-router";
+import { useCartStore } from "@/stores/cartStore";
+const cartStore = useCartStore();
 const checkInfo = ref({}); // 訂單物件
 const curAddress = ref({}); //當前地址
 const getCheckInfo = async () => {
@@ -30,6 +32,34 @@ const switchAddress = (item) => {
 const confirmAddress = () => {
   curAddress.value = activeAddress.value;
   showDialog.value = false;
+};
+
+const router = useRouter();
+// 創建訂單
+const createOrder = async () => {
+  const res = await createOrderAPI({
+    deliveryTimeType: 1,
+    payType: 1,
+    payChannel: 1,
+    buyerMessage: "",
+    goods: checkInfo.value.goods.map((item) => {
+      return {
+        skuId: item.skuId,
+        count: item.count,
+      };
+    }),
+    addressId: curAddress.value.id,
+  });
+  const orderId = res.result.id;
+  router.push({
+    path: "/pay",
+    query: {
+      id: orderId,
+    },
+  });
+  
+  // 更新購物車
+  cartStore.updateNewList();
 };
 </script>
 
@@ -140,7 +170,9 @@ const confirmAddress = () => {
         </div>
         <!-- 送出訂單 -->
         <div class="submit">
-          <el-button type="primary" size="large">送出訂單</el-button>
+          <el-button @click="createOrder" type="primary" size="large"
+            >送出訂單</el-button
+          >
         </div>
       </div>
     </div>
