@@ -49,6 +49,9 @@ export default defineConfig({
     },
   },
   base: "/Vue-Rabbit/",
+  build: {
+    outDir: "dist", // 默認編譯輸出的目錄
+  },
   optimizeDeps: {
     include: [
       // 明確包含 dayjs 和 element-plus，提高性能和解決導入錯誤
