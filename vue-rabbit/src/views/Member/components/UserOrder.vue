@@ -1,4 +1,8 @@
 <script setup>
+import { onMounted, ref } from "vue";
+import { getUserOrder } from "@/apis/order";
+import { convertObjectToTC } from "@/utils/convertText";
+
 // tab 列表
 const tabTypes = [
   { name: "all", label: "全部訂單" },
@@ -9,8 +13,23 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" },
 ];
+
 // 訂單列表
-const orderList = [];
+const orderList = ref([]);
+const params = ref({
+  orderState: 0,
+  page: 1,
+  pageSize: 2,
+});
+
+const getUserList = async () => {
+  const res = await getUserOrder(params.value);
+  orderList.value = convertObjectToTC(res.result);
+};
+
+onMounted(() => {
+  getUserList();
+});
 </script>
 
 <template>
