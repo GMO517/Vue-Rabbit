@@ -51,6 +51,11 @@ export const useCartStore = defineStore(
       item.selected = selected;
     };
 
+    const allCheck = (selected) => {
+      // foreach把cartList中的每一項selected都修改為selected
+      cartList.value.forEach((item) => (item.selected = selected));
+    };
+
     // 計算商品總和
     // 1.總數 所有項的count之和
     // reduce((累加器,當前項) => 累加器 + 當前項.count, 起始值 = 0)
@@ -66,13 +71,19 @@ export const useCartStore = defineStore(
         )
       )
     );
+
+    //是否全選
+    const isAll = computed(() => cartList.value.every((item) => item.selected));
+
     return {
       cartList,
       addCart,
       removeCart,
       allItemCount,
       allPriceCount,
+      isAll,
       singleCheck,
+      allCheck,
     };
   },
   {
