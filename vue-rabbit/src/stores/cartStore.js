@@ -2,34 +2,50 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { ElMessage } from "element-plus";
+import { useUserStore } from "./user";
+import { convertObjectToTC } from "@/utils/convertText";
+import { insertCartAPI, findNewCartListAPI } from "@/apis/cart";
 
 export const useCartStore = defineStore(
   "cart",
   () => {
+    const userStore = useUserStore();
+    const isLogin = computed(() => userStore.userInfo.token);
     // 1.定義state - cartList
     const cartList = ref([]);
 
     // 2.定義action - addCart
-    const addCart = (goodsInfo) => {
-      //商品數量異常處理
-      if (goodsInfo.count <= 0) {
-        ElMessage.error("商品數量異常");
-        return;
-      }
-      // 添加購物車操作
-      // 已添加過 - count +1
-      // 沒有添加過 - 直接push
-      // 做法:通過匹配傳遞過來的商品對象中的skuId
-      // 能不能在cartList中找到, 找到了就是添加過
-      const item = cartList.value.find(
-        (item) => goodsInfo.skuId === item.skuId
-      );
-      if (item) {
-        //找到了
-        item.count += goodsInfo.count;
+    const addCart = async (goodsInfo) => {
+      if (isLogin.value) {
+        //登入時觸發
+
+        //商品數量異常處理
+        if (goodsInfo.count <= 0) {
+          ElMessage.error("商品數量異常");
+          return;
+        }
+        const { skuId, count } = goodsInfo;
+        await insertCartAPI({ skuId, count });
+        const res = await findNewCartListAPI();
+        cartList.value = convertObjectToTC(res.result);
       } else {
-        //沒找到
-        cartList.value.push(goodsInfo);
+        //未登入時觸發
+        ElMessage.warning("請先登入");
+        // 添加購物車操作
+        // 已添加過 - count +1
+        // 沒有添加過 - 直接push
+        // 做法:通過匹配傳遞過來的商品對象中的skuId
+        // 能不能在cartList中找到, 找到了就是添加過
+        const item = cartList.value.find(
+          (item) => goodsInfo.skuId === item.skuId
+        );
+        if (item) {
+          //找到了
+          item.count += goodsInfo.count;
+        } else {
+          //沒找到
+          cartList.value.push(goodsInfo);
+        }
       }
     };
 
@@ -81,6 +97,7 @@ export const useCartStore = defineStore(
         .filter((item) => item.selected)
         .reduce((total, item) => total + item.count, 0)
     );
+
     // 4.已選擇商品總價
     const selectedPriceCount = computed(() =>
       Math.round(
