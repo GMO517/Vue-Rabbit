@@ -4,28 +4,28 @@
     <div class="contact">
       <div class="container">
         <dl>
-          <dt>客戶服務</dt>
+          <dt>聯絡我們</dt>
           <dd><i class="iconfont icon-kefu"></i> 在線客服</dd>
           <dd><i class="iconfont icon-question"></i> 問題回饋</dd>
         </dl>
-        <dl>
+        <!-- <dl>
           <dt>關注我們</dt>
           <dd><i class="iconfont icon-weixin"></i> 公眾號</dd>
           <dd><i class="iconfont icon-weibo"></i> 微博</dd>
-        </dl>
+        </dl> -->
         <dl>
           <dt>下載APP</dt>
           <dd class="qrcode"><img src="@/assets/images/qrcode.jpg" /></dd>
           <dd class="download">
-            <span>掃描二維碼</span>
+            <span>掃描QR Code</span>
             <span>立即下載APP</span>
-            <a href="javascript:;">下載頁面</a>
+            <a href="javascript:;">點我下載</a>
           </dd>
         </dl>
         <dl>
-          <dt>服務熱線</dt>
+          <dt>客服電話</dt>
           <dd class="hotline">
-            400-0000-000 <small>周一至周日 8:00-18:00</small>
+            02-1234-5678 <small>週一至週五 8:00-18:00</small>
           </dd>
         </dl>
       </div>
@@ -87,7 +87,7 @@
       color: #999;
 
       &:first-child {
-        padding-left: 0;
+        padding-left: 13%;
       }
 
       &:last-child {
