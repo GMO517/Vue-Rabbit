@@ -100,8 +100,9 @@ const allCheck = (selected) => {
       <!-- 操作欄 -->
       <div class="action">
         <div class="batch">
-          共 10 件商品，已選擇 2 件，商品合計：
-          <span class="red">&dollar; 200.00 </span>
+          共 {{ cartStore.allItemCount }} 件商品，已選擇
+          {{ cartStore.selectedCount }} 件，商品合計：
+          <span class="red">&dollar; {{cartStore.selectedPriceCount}} </span>
         </div>
         <div class="total">
           <el-button size="large" type="primary">下單結算</el-button>
