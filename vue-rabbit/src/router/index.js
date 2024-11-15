@@ -58,6 +58,8 @@ const router = createRouter({
         {
           path: "member",
           component: Member,
+          // 重定向到 /user
+          redirect: "member/user",
           children: [
             {
               path: "user",
