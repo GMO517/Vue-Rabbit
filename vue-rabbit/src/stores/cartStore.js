@@ -1,6 +1,6 @@
 // 封裝購物車模組
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { ElMessage } from "element-plus";
 
 export const useCartStore = defineStore(
@@ -42,10 +42,28 @@ export const useCartStore = defineStore(
       // 2.使用數組的過濾方法 - filter 二選一
       // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
     };
+
+    // 計算商品總和
+    // 1.總數 所有項的count之和
+    // reduce((累加器,當前項) => 累加器 + 當前項.count, 起始值 = 0)
+    const allItemCount = computed(() =>
+      cartList.value.reduce((total, item) => total + item.count, 0)
+    );
+    // 2.總價 所有項的count * price的和
+    const allPriceCount = computed(() =>
+      Math.round(
+        cartList.value.reduce(
+          (total, item) => total + item.count * item.price,
+          0
+        )
+      )
+    );
     return {
       cartList,
       addCart,
       removeCart,
+      allItemCount,
+      allPriceCount,
     };
   },
   {

@@ -20,7 +20,7 @@ const cartStore = useCartStore();
               <p class="attr ellipsis">{{ i.attrsText }}</p>
             </div>
             <div class="right">
-              <p class="price">&dollar;{{ i.price }}</p>
+              <p class="price">&dollar;{{ Math.round(i.price) }}</p>
               <p class="count">x{{ i.count }}</p>
             </div>
           </RouterLink>
@@ -32,8 +32,8 @@ const cartStore = useCartStore();
       </div>
       <div class="foot">
         <div class="total">
-          <p>共 10 件商品</p>
-          <p>&dollar; 100.00</p>
+          <p>共 {{ cartStore.allItemCount }} 件商品</p>
+          <p>&dollar; {{ cartStore.allPriceCount }}</p>
         </div>
         <el-button size="large" type="primary">點我去結帳</el-button>
       </div>
