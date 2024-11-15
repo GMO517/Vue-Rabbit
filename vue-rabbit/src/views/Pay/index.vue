@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { convertObjectToTC } from "@/utils/convertText";
 
+// 獲取訂單資料
 const payInfo = ref({});
 const route = useRoute();
 const getPayInfo = async () => {
@@ -11,6 +12,13 @@ const getPayInfo = async () => {
   payInfo.value = convertObjectToTC(res.result);
 };
 onMounted(() => getPayInfo());
+// 跳轉到付款頁面
+// 攜帶訂單id以及callback地址跳轉到付款地址(get)
+// 付款地址
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+const backURL = 'http://127.0.0.1:5173/paycallback'
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 
 <template>
