@@ -24,6 +24,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
+    "gh-pages": "^6.2.0",
     "sass": "^1.57.1",
     "unplugin-auto-import": "^0.13.0",
     "unplugin-vue-components": "^0.23.0",
