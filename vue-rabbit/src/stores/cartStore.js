@@ -28,8 +28,6 @@ export const useCartStore = defineStore(
         await insertCartAPI({ skuId, count });
         updateNewList();
       } else {
-        //未登入時觸發
-        ElMessage.warning("請先登入");
         // 添加購物車操作
         // 已添加過 - count +1
         // 沒有添加過 - 直接push
@@ -62,6 +60,11 @@ export const useCartStore = defineStore(
         // 2.使用數組的過濾方法 - filter 二選一
         // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
       }
+    };
+
+    // 清除購物車
+    const clearCart = () => {
+      cartList.value = [];
     };
 
     // 獲取最新購物車列表action
@@ -129,6 +132,8 @@ export const useCartStore = defineStore(
       selectedPriceCount,
       singleCheck,
       allCheck,
+      clearCart,
+      updateNewList,
     };
   },
   {
