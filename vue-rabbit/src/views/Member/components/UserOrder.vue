@@ -30,11 +30,17 @@ const getUserList = async () => {
 onMounted(() => {
   getUserList();
 });
+
+const tabChange = (type) => {
+  params.value.orderState = type;
+  // 再次抓資料
+  getUserList();
+};
 </script>
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab 切換 -->
       <el-tab-pane
         v-for="item in tabTypes"
