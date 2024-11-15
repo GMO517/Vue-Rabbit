@@ -35,7 +35,12 @@ const cartStore = useCartStore();
           <p>共 {{ cartStore.allItemCount }} 件商品</p>
           <p>&dollar; {{ cartStore.allPriceCount }}</p>
         </div>
-        <el-button size="large" type="primary">點我去結帳</el-button>
+        <el-button
+          size="large"
+          type="primary"
+          @click="$router.push('/cartList')"
+          >點我去結帳</el-button
+        >
       </div>
     </div>
   </div>
