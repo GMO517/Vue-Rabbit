@@ -1,6 +1,6 @@
 <script setup>
 import { useScroll } from "@vueuse/core";
-import { useCategoryStore } from "@/stores/category";
+import { useCategoryStore } from "@/stores/categoryStore";
 
 //使用vueUse函數庫抓取window y滾動距離
 const { y } = useScroll(window);

@@ -2,9 +2,9 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { ElMessage } from "element-plus";
-import { useUserStore } from "./user";
+import { useUserStore } from "./userStore";
 import { convertObjectToTC } from "@/utils/convertText";
-import { insertCartAPI, findNewCartListAPI } from "@/apis/cart";
+import { insertCartAPI, findNewCartListAPI, removeCartAPI } from "@/apis/cart";
 
 export const useCartStore = defineStore(
   "cart",
@@ -26,8 +26,7 @@ export const useCartStore = defineStore(
         }
         const { skuId, count } = goodsInfo;
         await insertCartAPI({ skuId, count });
-        const res = await findNewCartListAPI();
-        cartList.value = convertObjectToTC(res.result);
+        updateNewList();
       } else {
         //未登入時觸發
         ElMessage.warning("請先登入");
@@ -50,13 +49,25 @@ export const useCartStore = defineStore(
     };
 
     // 從購物車刪除商品
-    const removeCart = (skuId) => {
-      // 1.找到要刪掉項的下標值 - splice
+    const removeCart = async (skuId) => {
+      if (isLogin.value) {
+        // 調用接口實現購物車中的刪除功能
+        await removeCartAPI([skuId]);
+        updateNewList();
+      } else {
+        // 1.找到要刪掉項的下標值 - splice
 
-      const idx = cartList.value.findIndex((item) => item.skuId === skuId);
-      cartList.value.splice(idx, 1);
-      // 2.使用數組的過濾方法 - filter 二選一
-      // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
+        const idx = cartList.value.findIndex((item) => item.skuId === skuId);
+        cartList.value.splice(idx, 1);
+        // 2.使用數組的過濾方法 - filter 二選一
+        // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
+      }
+    };
+
+    // 獲取最新購物車列表action
+    const updateNewList = async () => {
+      const res = await findNewCartListAPI();
+      cartList.value = convertObjectToTC(res.result);
     };
 
     // 單選功能
