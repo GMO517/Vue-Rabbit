@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -14,20 +13,21 @@ import commonjs from "@rollup/plugin-commonjs";
 export default defineConfig({
   plugins: [
     vue(),
-    // ...
+    // 使用AutoImport自動導入ElementPlus
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
+    // 使用Components自動導入Vue組件，並且支持ElementPlus
     Components({
       resolvers: [
-        // 1. 配置elementPlus采用sass样式配色系统
+        // 1. 配置elementPlus採用sass樣式配色系統
         ElementPlusResolver({ importStyle: "sass" }),
       ],
     }),
-    commonjs(),
+    commonjs(), // 讓Vite處理CommonJS模塊
   ],
   resolve: {
-    // 实际的路径转换  @  -> src
+    // 配置路徑別名，@ 指向 src 目錄
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
@@ -35,7 +35,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // 2. 自动导入定制化样式文件进行样式覆盖
+        // 2. 自動導入定制化樣式文件，進行樣式覆蓋
         additionalData: `
           @use "@/styles/element/index.scss" as *;
           @use "@/styles/var.scss" as *;
@@ -43,4 +43,5 @@ export default defineConfig({
       },
     },
   },
+  base: "/Vue-Rabbit/",
 });
