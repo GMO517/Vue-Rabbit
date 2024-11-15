@@ -92,31 +92,32 @@ const addCart = () => {
             <div class="media">
               <!-- 圖片預覽區 -->
               <XtxImageView :image-list="goods.mainPictures" />
+
+              <!-- 統計數量 -->
+              <ul class="goods-sales">
+                <li>
+                  <p>銷量人氣</p>
+                  <p>{{ goods.salesCount }}+</p>
+                  <p><i class="iconfont icon-task-filling"></i>銷量人氣</p>
+                </li>
+                <li>
+                  <p>商品評價</p>
+                  <p>{{ goods.commentCount }}+</p>
+                  <p><i class="iconfont icon-comment-filling"></i>查看評價</p>
+                </li>
+                <li>
+                  <p>收藏人氣</p>
+                  <p>{{ goods.collectCount }}+</p>
+                  <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
+                </li>
+                <li>
+                  <p>品牌信息</p>
+                  <!-- brand有可能是undefined，使用可選鏈 -->
+                  <p>{{ goods.brand?.name }}</p>
+                  <p><i class="iconfont icon-dynamic-filling"></i>品牌主頁</p>
+                </li>
+              </ul>
             </div>
-            <!-- 統計數量 -->
-            <ul class="goods-sales">
-              <li>
-                <p>銷量人氣</p>
-                <p>{{ goods.salesCount }}+</p>
-                <p><i class="iconfont icon-task-filling"></i>銷量人氣</p>
-              </li>
-              <li>
-                <p>商品評價</p>
-                <p>{{ goods.commentCount }}+</p>
-                <p><i class="iconfont icon-comment-filling"></i>查看評價</p>
-              </li>
-              <li>
-                <p>收藏人氣</p>
-                <p>{{ goods.collectCount }}+</p>
-                <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
-              </li>
-              <li>
-                <p>品牌信息</p>
-                <!-- brand有可能是undefined，使用可選鏈 -->
-                <p>{{ goods.brand?.name }}</p>
-                <p><i class="iconfont icon-dynamic-filling"></i>品牌主頁</p>
-              </li>
-            </ul>
 
             <div class="spec">
               <p class="g-name">{{ goods.name }}</p>
