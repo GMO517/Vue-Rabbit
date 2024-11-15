@@ -32,9 +32,20 @@ export const useCartStore = defineStore(
         cartList.value.push(goodsInfo);
       }
     };
+
+    // 從購物車刪除商品
+    const removeCart = (skuId) => {
+      // 1.找到要刪掉項的下標值 - splice
+
+      const idx = cartList.value.findIndex((item) => item.skuId === skuId);
+      cartList.value.splice(idx, 1);
+      // 2.使用數組的過濾方法 - filter 二選一
+      // cartList.value = cartList.value.filter((item) => item.skuId !== skuId);
+    };
     return {
       cartList,
       addCart,
+      removeCart,
     };
   },
   {

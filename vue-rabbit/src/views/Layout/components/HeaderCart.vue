@@ -26,7 +26,7 @@ const cartStore = useCartStore();
           </RouterLink>
           <i
             class="iconfont icon-close-new"
-            @click="store.delCart(i.skuId)"
+            @click="cartStore.removeCart(i.skuId)"
           ></i>
         </div>
       </div>
@@ -35,7 +35,7 @@ const cartStore = useCartStore();
           <p>共 10 件商品</p>
           <p>&dollar; 100.00</p>
         </div>
-        <el-button size="large" type="primary">去购物车结算</el-button>
+        <el-button size="large" type="primary">點我去結帳</el-button>
       </div>
     </div>
   </div>
