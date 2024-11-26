@@ -60,6 +60,16 @@ const fomartPayState = (payState) => {
 
   return stateMap[payState];
 };
+
+const formatTime = (time) => {
+  if (time <= 0) return "已截止";
+  const timeValue = Number(time);
+  const minutes = Math.floor(timeValue / 60)
+    .toString()
+    .padStart(2, "0"); // 計算分鐘並補齊 2 位數
+  const seconds = (timeValue % 60).toString().padStart(2, "0"); // 計算秒數並補齊 2 位數
+  return `${minutes}分${seconds}秒`;
+};
 </script>
 
 <template>
@@ -85,7 +95,7 @@ const fomartPayState = (payState) => {
               <!-- 未付款，倒計時時間還有 -->
               <span class="down-time" v-if="order.orderState === 1">
                 <i class="iconfont icon-down-time"></i>
-                <b>付款截止: {{ order.countdown }}</b>
+                <b>付款截止: {{ formatTime(order.countdown) }}</b>
               </span>
             </div>
             <div class="body">
